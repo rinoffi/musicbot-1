@@ -1,9 +1,10 @@
-FROM python:3.11-slim
+FROM python:3.11-bullseye
 
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && \
+    apt-get install -y \
     ffmpeg \
     git \
     build-essential \
@@ -14,16 +15,19 @@ RUN apt-get update && apt-get install -y \
 RUN python -m pip install --no-cache-dir --upgrade pip==25.1.1 && \
     pip install --no-cache-dir --upgrade setuptools wheel
 
-# Install tgcrypto separately first
-RUN pip install --no-cache-dir tgcrypto==1.2.5
+# Install packages one by one
+RUN pip install --no-cache-dir pyrogram==2.0.106 && \
+    pip install --no-cache-dir tgcrypto==1.2.5 && \
+    pip install --no-cache-dir pytgcalls==4.0.0b3 && \
+    pip install --no-cache-dir yt-dlp==2023.12.30 && \
+    pip install --no-cache-dir aiohttp==3.9.1 && \
+    pip install --no-cache-dir motor==3.3.2 && \
+    pip install --no-cache-dir python-dotenv==1.0.0 && \
+    pip install --no-cache-dir youtube-search-python==1.6.6 && \
+    pip install --no-cache-dir pymongo==4.6.1 && \
+    pip install --no-cache-dir cryptg==0.4.0
 
-# Copy requirements first for better caching
-COPY requirements.txt .
-
-# Install Python dependencies with verbose output
-RUN pip install --no-cache-dir -v -r requirements.txt
-
-# Copy the rest of the application
+# Copy the application
 COPY . .
 
 # Run the bot
