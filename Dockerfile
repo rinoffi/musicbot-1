@@ -11,6 +11,12 @@ RUN apt-get update && \
     python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# Install Python dependencies
+RUN pip install -r requirements.txt
+
+# Copy the application
+COPY . .
+
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
