@@ -1,0 +1,8 @@
+pyrogram==2.0.106
+tgcrypto
+pytgcalls==4.0.0b3
+yt-dlp
+aiohttp
+motor
+python-dotenv
+youtube-search-python 
